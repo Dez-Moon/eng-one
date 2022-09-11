@@ -1,0 +1,11 @@
+.testResult {
+  @apply flex flex-col items-center;
+  margin: 0 auto;
+  width: fit-content;
+  .answerVariants {
+    @apply flex gap-2;
+  }
+  .button {
+    @apply flex justify-center;
+  }
+}

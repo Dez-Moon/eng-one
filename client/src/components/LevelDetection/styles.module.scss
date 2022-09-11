@@ -1,0 +1,48 @@
+.levelDetection {
+  @apply relative flex rounded-lg p-5 text-center;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  border-top: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  width: 80%;
+  margin: 30px 0px;
+  overflow-y: scroll;
+  .content {
+    width: 100%;
+    .createTestBtn {
+      @apply absolute;
+      right: 10px;
+      @media (max-width: 600px) {
+        @apply relative;
+        margin: 0 auto;
+      }
+    }
+    .testsContainer {
+      @apply flex flex-col gap-2;
+      font-weight: 600;
+
+      .header {
+        @apply text-3xl;
+      }
+      .testName {
+        @apply flex items-center gap-3 text-lg cursor-default;
+        @media (max-width: 600px) {
+          @apply gap-1;
+        }
+        :hover {
+          @apply text-lg;
+        }
+        .editTestIcon {
+          @apply cursor-pointer;
+          font-size: 20px;
+          color: gray;
+        }
+        .result {
+          @apply flex gap-5 text-base;
+        }
+      }
+    }
+  }
+}

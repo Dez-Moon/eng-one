@@ -1,0 +1,49 @@
+.header {
+  @apply text-white flex justify-between;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 40px;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  .navigation {
+    @apply relative flex gap-2 pl-5;
+    z-index: 0;
+    font-weight: 600;
+    height: 100%;
+    .navItem {
+      @apply flex items-center p-2 cursor-pointer;
+      height: 100%;
+      div {
+        @apply p-2;
+      }
+      div:hover {
+        @apply flex items-center rounded-lg;
+        transition: 0.3s;
+        box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+      }
+    }
+    .active {
+      @apply flex items-center rounded-lg cursor-default;
+      box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+      height: 100%;
+    }
+  }
+  .rightPart {
+    @apply flex items-center gap-2 pr-5;
+    font-weight: 600;
+  }
+}
+.ssss {
+  @apply absolute;
+  background: rgba(112, 128, 166, 0.2);
+  height: fit-content;
+  width: 200px;
+  border: 0.5px solid gray;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}

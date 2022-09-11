@@ -1,0 +1,23 @@
+.videos {
+  @apply relative flex flex-col rounded-lg p-5 text-center gap-5;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  border-top: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  width: 80%;
+  margin: 30px 0px;
+  overflow-y: scroll;
+  .addVideoBtn {
+    @apply absolute flex justify-center items-center;
+    right: 10px;
+    top: 10px;
+    .buttons {
+      @apply flex flex-col gap-1 items-center;
+    }
+  }
+  .flexContainer {
+    @apply flex gap-5  flex-wrap;
+  }
+}

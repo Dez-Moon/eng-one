@@ -1,0 +1,16 @@
+.video {
+  @apply relative flex justify-center items-center;
+  height: 200px;
+  width: 300px;
+  iframe {
+    @apply rounded-lg;
+  }
+  .settingsBtn {
+    @apply absolute cursor-pointer flex justify-center items-center;
+    width: 74px;
+    height: 66px;
+    right: 0;
+    top: 0;
+    font-size: 25px;
+  }
+}

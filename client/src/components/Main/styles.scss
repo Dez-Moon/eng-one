@@ -1,0 +1,57 @@
+.main {
+  @apply flex gap-5 justify-center items-center;
+  height: 100%;
+  width: 100%;
+  margin: 30px 0px;
+  @media (max-width: 880px) {
+    @apply flex-col p-5;
+  }
+  .mainElements {
+    @apply flex rounded-lg items-center justify-center text-2xl cursor-pointer;
+    color: white;
+    width: 100%;
+    height: 50%;
+    background: rgba(112, 128, 166, 0.2);
+    border: 0.5px solid gray;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: 0.2s;
+  }
+}
+@media (min-width: 880px) {
+  .mainElements:hover {
+    transition: 0.2s;
+    width: 120%;
+    height: 55%;
+  }
+}
+
+.selectedElement {
+  @apply flex justify-center items-center rounded-lg;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+.selectedElement-enter {
+  transition: 0.2s;
+}
+.selectedElement-enter-done {
+  transition: 0.2s;
+  height: 100%;
+  width: 80%;
+
+  opacity: 1;
+}
+.selectedElement-exit {
+  @apply absolute;
+  transition: 0.3s;
+}
+.selectedElement-exit-active {
+  @apply absolute;
+  transition: 1s;
+  opacity: 0;
+}

@@ -1,0 +1,16 @@
+.testCreation {
+  @apply flex flex-col gap-5 items-center;
+  width: 100%;
+  .testName {
+    @apply relative flex items-center;
+    .delete {
+      @apply absolute cursor-pointer;
+      font-size: 20px;
+      right: 0;
+      color: gray;
+    }
+  }
+  .plus {
+    @apply cursor-pointer;
+  }
+}

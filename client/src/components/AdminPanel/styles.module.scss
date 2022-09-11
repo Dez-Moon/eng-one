@@ -1,0 +1,16 @@
+.adminPanel {
+  @apply rounded-lg text-center p-5 flex flex-col gap-5;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  border-top: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  width: 80%;
+  margin: 30px 0px;
+  overflow-y: scroll;
+
+  .users {
+    @apply flex gap-2 items-start flex-wrap mt-2;
+  }
+}

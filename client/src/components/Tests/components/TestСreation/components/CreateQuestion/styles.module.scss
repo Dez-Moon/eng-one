@@ -1,0 +1,58 @@
+.createQuestion {
+  @apply flex flex-col gap-2 items-center;
+
+  .questionBlock {
+    @apply relative flex items-center gap-2;
+    margin-left: 35px;
+    .nameQuestion {
+      @apply relative flex items-center;
+    }
+    .addNewVariant {
+      @apply flex flex-col items-center gap-0;
+      .addImage {
+        .addImageIcon {
+          font-size: 18px;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+    .delete {
+      @apply absolute cursor-pointer;
+      right: 0;
+      color: gray;
+      font-size: 18px;
+    }
+  }
+  .plus {
+    @apply cursor-pointer;
+  }
+
+  .imgUrl {
+    @apply flex items-center gap-2;
+    margin-left: 30px;
+    .uploadImgBtn {
+      @apply cursor-pointer;
+      color: green;
+    }
+  }
+  .img {
+    @apply relative flex items-center;
+    img {
+      height: 200px;
+    }
+    .imgPreloader {
+      @apply absolute;
+    }
+    .deleteImgBtn {
+      @apply absolute cursor-pointer;
+      right: 0;
+      top: 0;
+      color: red;
+    }
+  }
+  .answerVariants {
+    @apply flex gap-2;
+  }
+}

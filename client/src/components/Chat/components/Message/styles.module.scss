@@ -1,0 +1,38 @@
+.messageItem {
+  @apply items-end flex gap-1;
+  text-align: start;
+  font-size: 14px;
+  img {
+    @apply rounded-full;
+    width: 30px;
+    height: 30px;
+  }
+  .messageContainer {
+    @apply relative rounded-lg p-1 break-words;
+    background: rgb(76, 61, 79);
+    border: 0.5px solid gray;
+    max-width: 230px;
+    bottom: 15px;
+    .message {
+      z-index: 2;
+      .userName {
+        font-weight: 600;
+      }
+    }
+    .triangle {
+      @apply absolute;
+      background: rgb(76, 61, 79);
+      clip-path: polygon(6% 83%, 0% 100%, 17% 93%);
+      width: 70px;
+      height: 70px;
+      bottom: -5px;
+      left: -2px;
+      z-index: 1;
+    }
+    .time {
+      @apply relative float-right ml-2;
+      bottom: -8px;
+      font-size: 12px;
+    }
+  }
+}

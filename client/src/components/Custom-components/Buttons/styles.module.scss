@@ -1,0 +1,21 @@
+.Button {
+  @apply flex rounded-lg p-3 items-center text-sm text-white cursor-pointer;
+  font-weight: 600;
+  box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  height: 30px;
+  width: fit-content;
+  white-space: nowrap;
+  :hover {
+    @apply text-base;
+    transition: 0.3s;
+  }
+}
+
+.disabled {
+  @apply text-sm cursor-not-allowed;
+  background-color: rgba(160, 184, 212, 0.5);
+  :hover {
+    @apply text-sm cursor-not-allowed;
+  }
+}

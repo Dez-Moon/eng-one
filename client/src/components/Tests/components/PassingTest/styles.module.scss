@@ -1,0 +1,33 @@
+.passingTest {
+  @apply relative flex flex-col gap-2 items-center;
+  margin: 0 auto;
+  .testName {
+    @apply text-3xl mb-5;
+  }
+  .question {
+    @apply flex flex-col;
+    .img {
+      @apply relative flex  items-center justify-center flex-col;
+      height: 270px;
+      img {
+        height: 100%;
+      }
+      .imgPreloader {
+      }
+    }
+    .variant {
+      @apply flex justify-start items-center gap-2;
+    }
+  }
+  .buttons {
+    @apply flex justify-center gap-5;
+  }
+  .questionPaginator {
+    @apply absolute flex gap-2 cursor-pointer;
+    bottom: 0;
+    .active {
+      font-weight: bold;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+  }
+}

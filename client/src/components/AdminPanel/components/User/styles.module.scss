@@ -1,0 +1,43 @@
+.user {
+  @apply relative flex  flex-col items-center gap-2 rounded-lg p-2 cursor-default;
+  overflow-x: hidden;
+  box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  width: 200px;
+  img {
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+  }
+  .userInfo {
+    @apply flex flex-col items-center;
+    .isActivated {
+      .activated {
+        color: green;
+      }
+      .notActivated {
+        color: red;
+      }
+    }
+    .status {
+      @apply absolute cursor-pointer text-xs;
+      top: 5px;
+      right: 5px;
+      .online {
+        @apply cursor-pointer;
+        color: green;
+      }
+      .offline {
+        @apply cursor-pointer;
+        color: red;
+      }
+    }
+    .wasOnline {
+      @apply absolute rounded-lg pl-2 pr-2;
+      white-space: nowrap;
+      top: 20px;
+      box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+    }
+  }
+}

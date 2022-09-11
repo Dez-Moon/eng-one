@@ -1,0 +1,53 @@
+.registration {
+  @apply absolute flex flex-col items-center gap-3 p-5  rounded-lg;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  border-top: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  top: -200px;
+  right: 0;
+  width: 250px;
+  color: white;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
+  input {
+    @apply rounded-lg text-center;
+    color: black;
+  }
+  .form {
+    @apply flex flex-col gap-3 items-center;
+  }
+  .password {
+    @apply relative;
+    img {
+      @apply absolute cursor-pointer;
+      width: 15px;
+      top: 13px;
+      right: 8px;
+    }
+  }
+  .preloader {
+    @apply absolute;
+    top: 40%;
+  }
+}
+.registration-enter {
+  transition: 0.2s;
+  top: -250px;
+}
+.registration-enter-done {
+  transition: 0.2s;
+  top: 45px;
+}
+.registration-exit {
+  @apply absolute;
+  transition: 0.3s;
+  top: -250px;
+}
+.registration-exit-active {
+  @apply absolute;
+  transition: 1s;
+  top: -250px;
+}

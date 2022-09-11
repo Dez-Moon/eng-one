@@ -1,0 +1,45 @@
+.settings {
+  @apply relative text-center flex flex-col gap-5 pt-2 rounded-lg;
+  background: rgba(112, 128, 166, 0.2);
+  border: 0.5px solid gray;
+  border-top: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100%;
+  width: 80%;
+  margin: 30px 0px;
+  overflow-y: scroll;
+  .userInfo {
+    @apply flex flex-col items-center gap-3;
+    width: 100%;
+    .photo {
+      @apply relative flex items-end;
+      img {
+        border-radius: 150px;
+        width: 100px;
+        height: 100px;
+      }
+      .addImage {
+        .addImageIcon {
+          cursor: pointer;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+  }
+  h1 {
+    @apply text-3xl;
+  }
+  .info {
+    @apply flex flex-col items-center ml-10 gap-5;
+    width: fit-content;
+    h1 {
+      @apply text-xl;
+    }
+    .item {
+      @apply flex flex-col;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.chat {
+  @apply flex flex-col justify-between fixed rounded-lg p-2 pt-0;
+  border: 0.5px solid gray;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(100px);
+  height: 500px;
+  width: 280px;
+  bottom: 20px;
+  right: 20px;
+  h1 {
+    font-size: 22px;
+  }
+
+  .messages {
+    @apply flex flex-col gap-2  text-center;
+    overflow-y: scroll;
+    overflow-x: wrap;
+  }
+  .bottomPart {
+    @apply flex flex-col gap-1;
+
+    .emoji {
+      @apply overflow-scroll p-1 text-center;
+      border: 0.5px solid gray;
+      border-radius: 8px 8px 8px 0;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(1px);
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10;
+      .emojiGroup {
+        @apply flex flex-wrap justify-center gap-1;
+        .emojiItem {
+          @apply cursor-pointer;
+        }
+      }
+    }
+
+    .input {
+      @apply flex items-center gap-2 cursor-pointer;
+    }
+  }
+}
