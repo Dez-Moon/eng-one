@@ -13,22 +13,19 @@ type PropsType = {
   };
 };
 const Message = React.memo((props: PropsType) => {
-  debugger;
-  const { message, userId, id, createdAt, updatedAt } = props.message;
+  // const { message, userId, id, createdAt, updatedAt } = props.message;
 
   return (
     <div className={styles.messageItem}>
-      <div>
-        {/* <img src={user?.img} />
-      </div>
+      <div>{/* <img src={user?.img} /> */}</div>
       <div className={styles.messageContainer}>
         <div className={styles.message}>
-          <div className={styles.userName}>{user?.email}</div>
+          <div className={styles.userName}>{props.message.userId}</div>
           <div>
-            {message} <div className={styles.time}>11:22</div>
+            {props.message.message} <div className={styles.time}>11:22</div>
           </div>
         </div>
-        <div className={styles.triangle}></div> */}
+        <div className={styles.triangle}></div>
       </div>
     </div>
   );

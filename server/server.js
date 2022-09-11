@@ -50,7 +50,6 @@ app.ws("/", (ws, req) => {
             const messageDto = new ChatMessageDto(message);
             messageDto.user = { img: user.img };
             newArray[index] = messageDto;
-            console.log(newArray);
           });
           client.send(
             JSON.stringify({
@@ -58,6 +57,7 @@ app.ws("/", (ws, req) => {
               messages: newArray,
             })
           );
+          console.log("send success");
         });
         break;
     }

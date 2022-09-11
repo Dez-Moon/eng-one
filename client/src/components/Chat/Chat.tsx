@@ -23,7 +23,6 @@ const Chat = () => {
       const data = JSON.parse(event.data);
       switch (data.method) {
         case "message":
-          debugger;
           setMessages(data.messages);
       }
     };
