@@ -3,8 +3,7 @@ import { cookies } from "../cookies/cookies";
 
 export const $api = axios.create({
   withCredentials: true,
-  // baseURL: "http://localhost:3001/api/",
-  baseURL: "https://eng-server.herokuapp.com/api/",
+  baseURL: process.env.REACT_APP_SERVER,
 });
 $api.interceptors.request.use((config: AxiosRequestConfig) => {
   if (config.headers) {

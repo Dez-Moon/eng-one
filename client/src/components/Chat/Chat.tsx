@@ -27,7 +27,7 @@ const Chat = () => {
       }
     };
   }, []);
-
+  console.log(process.env.REACT_APP);
   return (
     <CSSTransition
       in={true}

@@ -25,7 +25,9 @@ const Message = React.memo((props: PropsType) => {
             {props.message.message} <div className={styles.time}>11:22</div>
           </div>
         </div>
-        <div className={styles.triangle}></div>
+        <div className={styles.triangle}>
+          <div></div>
+        </div>
       </div>
     </div>
   );
