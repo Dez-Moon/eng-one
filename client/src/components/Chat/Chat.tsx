@@ -14,7 +14,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]) as any;
   const [showEmoji, setShowEmoji] = useState(false);
   const auth = useSelector<AppRootStateType>((state) => state.auth) as any;
-  const socket = new WebSocket("ws://localhost:3001/");
+  const socket = new WebSocket("ws://eng-server.herokuapp.com/");
   useEffect(() => {
     socket.onopen = () => {
       socket.send(JSON.stringify({ method: "message", message: "" }));
