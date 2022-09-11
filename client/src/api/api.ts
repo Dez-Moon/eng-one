@@ -3,7 +3,7 @@ import { cookies } from "../cookies/cookies";
 
 export const $api = axios.create({
   withCredentials: true,
-  baseURL: process.env.REACT_APP_API_URL || process.env.VERCEL_URL,
+  baseURL: "https://eng-server.herokuapp.com/api/",
 });
 $api.interceptors.request.use((config: AxiosRequestConfig) => {
   if (config.headers) {
