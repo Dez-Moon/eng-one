@@ -44,20 +44,12 @@ app.ws("/", (ws, req) => {
         }
         const messages = await chatService.getMessages();
         aWss.clients.forEach((client) => {
-          let newArray = messages.slice();
-          newArray.forEach(async (message, index) => {
-            const user = await User.findById(message.userId);
-            const messageDto = new ChatMessageDto(message);
-            messageDto.user = { img: user.img };
-            newArray[index] = messageDto;
-          });
           client.send(
             JSON.stringify({
               method: "message",
-              messages: newArray,
+              messages: messages,
             })
           );
-          console.log("send success");
         });
         break;
     }

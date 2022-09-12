@@ -14,7 +14,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]) as any;
   const [showEmoji, setShowEmoji] = useState(false);
   const auth = useSelector<AppRootStateType>((state) => state.auth) as any;
-  const socket = new WebSocket("wss://eng-server.herokuapp.com/");
+  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET as any);
   useEffect(() => {
     socket.onopen = () => {
       socket.send(JSON.stringify({ method: "message", message: "" }));
@@ -27,7 +27,6 @@ const Chat = () => {
       }
     };
   }, []);
-  console.log(process.env.REACT_APP);
   return (
     <CSSTransition
       in={true}

@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Chat = require("../models/chat-message");
 const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
@@ -12,6 +13,7 @@ const { initializeApp } = require("firebase/app");
 const tokenService = require("../service/token-service");
 const { default: axios } = require("axios");
 const UserDto = require("../dtos/user-dto");
+const ChatMessageDto = require("../dtos/chat-message-dto");
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9KqSRlxaFwgrlv3GWMwsA314FsjdPBNU",

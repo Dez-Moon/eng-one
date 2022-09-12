@@ -1,15 +1,20 @@
 module.exports = class ChatMessageDto {
   message;
   id;
-  userId;
+  user;
   createdAt;
   updatedAt;
 
-  constructor(model) {
-    this.message = model.message;
-    this.id = model._id;
-    this.userId = model.userId;
-    this.createdAt = model.createdAt;
-    this.updatedAt = model.updatedAt;
+  constructor(message, user) {
+    this.message = message.message;
+    this.id = message._id;
+    this.createdAt = message.createdAt;
+    this.updatedAt = message.updatedAt;
+    this.user = {
+      id: user._id,
+      login: user.login,
+      img: user.img,
+      status: user.status,
+    };
   }
 };

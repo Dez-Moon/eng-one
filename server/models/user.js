@@ -11,6 +11,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  login: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   role: "USER" | "ADMIN",
   isActivated: {
     type: Boolean,
