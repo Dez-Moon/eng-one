@@ -18,10 +18,12 @@ export const authApi = {
   },
   registration(
     email: string,
+    login: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
     const params = new URLSearchParams();
     params.append("email", email);
+    params.append("login", login);
     params.append("password", password);
     const promise = $api.post<AuthResponse>("registration", params);
     return promise;

@@ -35,8 +35,9 @@ class UserController {
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest("Ошибка валидации", errors.array()));
       }
-      const { email, password } = req.body;
-      const userData = await userService.registration(email, password);
+      console.log(req.body);
+      const { email, login, password } = req.body;
+      const userData = await userService.registration(email, login, password);
       return res.json(userData);
     } catch (e) {
       next(e);

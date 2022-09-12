@@ -8,21 +8,25 @@ const ApiError = require("../exceptions/api-error");
 const functions = require("../functions/functions");
 
 class UserService {
-  async registration(email, password) {
-    const candidate = await User.findOne({ email });
-    if (candidate) {
+  async registration(email, login, password) {
+    const candidateEmail = await User.findOne({ email });
+    const candidateLogin = await User.findOne({ login });
+    if (candidateEmail) {
       throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} уже существует`
       );
+    } else if (candidateLogin) {
+      throw ApiError.BadRequest(`Логин ${login} уже занят`);
     }
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = uuid.v4();
     const user = await User.create({
       email,
+      login,
       password: hashPassword,
       role: "USER",
       activationLink,
-      status: "online",
+      status: "ofline",
     });
     await mailService.sendActivationMail(
       email,

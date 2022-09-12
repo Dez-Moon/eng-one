@@ -12,6 +12,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import styles from "./styles.module.scss";
 import PassingTest from "./components/PassingTest/PassingTest";
 import TestResult from "./components/TestResult/TestResult";
+import roles from "../../roles for administrator rights/roles";
 
 const Tests = React.memo(() => {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ const Tests = React.memo(() => {
     (state) => state.tests.tests
   ) as any;
   const user = useSelector<AppRootStateType>((state) => state.auth.user) as any;
-  const role = useSelector<AppRootStateType>((state) => state.auth.user.role);
+  const role = useSelector<AppRootStateType>(
+    (state) => state.auth.user.role
+  ) as any;
   const passingTest = useSelector<AppRootStateType>(
     (state) => state.tests.passingTest
   ) as any;
@@ -38,7 +41,7 @@ const Tests = React.memo(() => {
           <div className={styles.content}>
             <div className={styles.testsContainer}>
               <span className={styles.header}>Тести</span>
-              {(role === "ADMIN" || role === "TEST") && (
+              {roles.has(role) && (
                 <div className={styles.createTestBtn}>
                   <Button
                     title='Створити новий тест'
@@ -113,7 +116,7 @@ const Tests = React.memo(() => {
                   };
                   return (
                     <div className={styles.testName} key={index}>
-                      {(role === "ADMIN" || role === "TEST") && (
+                      {roles.has(role) && (
                         <div>
                           <SettingsIcon
                             className={styles.editTestIcon}

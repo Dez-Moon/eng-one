@@ -1,0 +1,16 @@
+.emojiBlock {
+  @apply overflow-scroll p-1 text-center;
+  border: 0.5px solid gray;
+  border-radius: 8px 8px 8px 0;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(1px);
+  width: 200px;
+  height: 200px;
+  margin-bottom: 10;
+  .emojiGroup {
+    @apply flex flex-wrap justify-center gap-1;
+    .emojiItem {
+      @apply cursor-pointer;
+    }
+  }
+}

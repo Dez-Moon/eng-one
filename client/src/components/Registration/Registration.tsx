@@ -47,10 +47,14 @@ const Autorization = React.memo((props: PropsType) => {
         {error && <ErrorHandler error={error} />}
         <span>Реєстрація</span>
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ email: "", login: "", password: "" }}
           validate={(values) => {}}
           onSubmit={(values) => {
-            const thunk = registrationTC(values.email, values.password);
+            const thunk = registrationTC(
+              values.email,
+              values.login,
+              values.password
+            );
             thunk(dispatch);
           }}
         >
@@ -73,6 +77,15 @@ const Autorization = React.memo((props: PropsType) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
+              />
+              <CustomTextField
+                label='Login'
+                variant='outlined'
+                size='small'
+                name='login'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.login}
               />
               <CustomTextField
                 label='Password'

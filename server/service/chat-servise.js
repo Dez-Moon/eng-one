@@ -26,7 +26,13 @@ class ChatService {
     else return false;
   }
   async changeMessage(message, id) {}
-  async deleteMessage(id) {}
+  async deleteMessage(id) {
+    const response = Chat.findByIdAndDelete(id);
+    return response;
+  }
+  async clearMessages() {
+    const response = await Chat.deleteMany();
+  }
 }
 
 module.exports = new ChatService();

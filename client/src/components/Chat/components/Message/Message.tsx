@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { authApi } from "../../../../api/auth-api";
-import { IUser } from "../../../../models/IUser";
+import React, { createRef } from "react";
+import ContextMenu from "../ContextMenu/ContextMenu";
 import styles from "./styles.module.scss";
 
 type PropsType = {
+  index: number;
+  contextMenu: any;
+  setContextMenu: any;
+  style: any;
   message: {
     message: string;
     user: { id: string; login: string; img: string; status: string };
@@ -11,13 +14,31 @@ type PropsType = {
     createdAt: string;
     updatedAt: string;
   };
+  socket: any;
 };
 const Message = React.memo((props: PropsType) => {
   const { message, user, id, createdAt, updatedAt } = props.message;
   const time = createdAt.substr(11, 5);
-  debugger;
+  const contextMenu = (e: any) => {
+    e.preventDefault();
+    props.setContextMenu(id);
+  };
   return (
-    <div className={styles.messageItem}>
+    <div
+      className={styles.messageItem}
+      style={props.style}
+      onClick={(e: any) => {
+        console.log("left Click");
+      }}
+      onContextMenu={contextMenu}
+    >
+      {props.contextMenu === id && (
+        <ContextMenu
+          socket={props.socket}
+          messageId={id}
+          setContextMenu={props.setContextMenu}
+        />
+      )}
       <div>
         <img src={user.img} />
       </div>

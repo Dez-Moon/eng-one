@@ -55,10 +55,11 @@ export const loginTC =
     dispatch(setLoadingWindowAC({ window: null }));
   };
 export const registrationTC =
-  (email: string, password: string) => async (dispatch: Dispatch) => {
+  (email: string, login: string, password: string) =>
+  async (dispatch: Dispatch) => {
     try {
       dispatch(setLoadingWindowAC({ window: "registration" }));
-      const response = await authApi.registration(email, password);
+      const response = await authApi.registration(email, login, password);
       cookies.setCookie("refreshToken", response.data.refreshToken, 30);
       localStorage.setItem("token", response.data.accessToken);
       dispatch(setIsAuthAC({ value: true }));

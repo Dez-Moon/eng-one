@@ -24,6 +24,7 @@ type PropsType = {
   autoComplete?: string;
   ref?: any;
   onKeyPress?: any;
+  style?: any;
 };
 
 const CustomTextField = React.memo((props: PropsType) => {
@@ -84,7 +85,7 @@ const CustomTextField = React.memo((props: PropsType) => {
   };
   return (
     <TextField
-      sx={style}
+      sx={props.style || style}
       autoFocus={props.autoFocus}
       defaultValue={props.defaultValue}
       disabled={props.disabled}
@@ -104,6 +105,7 @@ const CustomTextField = React.memo((props: PropsType) => {
       onBlur={props.onBlur}
       autoComplete={props.autoComplete}
       onKeyPress={props.onKeyPress}
+      style={{ color: "white" }}
     />
   );
 });

@@ -5,22 +5,20 @@ type PropsType = {
   title: string;
   onClick: any;
   disabled?: boolean;
+  style?: any;
   type?: "button" | "submit" | "reset" | undefined;
 };
 const Button = React.memo((props: PropsType) => {
-  const style = props.disabled
-    ? styles.Button + " " + styles.disabled
-    : styles.Button;
   return (
-    <div className={style}>
-      <button
-        onClick={props.onClick}
-        type={props.type}
-        disabled={props.disabled}
-      >
-        {props.title}
-      </button>
-    </div>
+    <button
+      onClick={props.onClick}
+      type={props.type}
+      disabled={props.disabled}
+      className={styles.Button}
+      style={props.style}
+    >
+      {props.title}
+    </button>
   );
 });
 

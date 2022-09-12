@@ -1,0 +1,22 @@
+.contextMenu {
+  @apply absolute flex flex-col items-center justify-center rounded-md cursor-pointer;
+  border: 0.5px solid gray;
+  background: rgb(76, 61, 79);
+  box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  right: 0;
+  top: -45px;
+  hr {
+    height: 1px;
+    border: 0.5px solid gray;
+    width: 100%;
+  }
+  div {
+    @apply p-1;
+  }
+  div:hover {
+    box-shadow: inset 0 2em 2em rgba(0, 0, 0, 0.1),
+      0 0 0 0px rgb(112, 128, 166, 0.2), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+  }
+}

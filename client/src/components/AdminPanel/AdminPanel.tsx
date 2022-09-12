@@ -10,6 +10,7 @@ import { Navigate } from "react-router-dom";
 import { getTimeLastOnline } from "../../functions/getTimeLastOnline";
 import User from "./components/User/User";
 import UsersShown from "./components/UsersShown/UsersShown";
+import roles from "../../roles for administrator rights/roles";
 
 const AdminPanel = () => {
   const [users, setUsers] = useState(null) as any;
@@ -18,7 +19,7 @@ const AdminPanel = () => {
   ) as IUser;
   const [filter, setFilter] = useState("all") as any;
 
-  if (user?.role === "ADMIN" || user?.role === "TEST") {
+  if (roles.has(user.role)) {
     return (
       <div className={styles.adminPanel}>
         <h1>Панель адміністратора</h1>

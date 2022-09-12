@@ -13,8 +13,6 @@ const videoApiRoutes = require("./routes/api-video-routes");
 const errorMiddleware = require("./middlewares/error-middleware");
 const cookieParser = require("cookie-parser");
 const chatService = require("./service/chat-servise");
-const ChatMessageDto = require("./dtos/chat-message-dto");
-const User = require("./models/user");
 
 const errorMsg = chalk.bgKeyword("white").redBright;
 const successMsg = chalk.bgKeyword("green").white;
@@ -32,15 +30,26 @@ const aWss = WSserver.getWss();
 app.ws("/", (ws, req) => {
   console.log("Подключение установлено");
   ws.send("Ты успешно подключился");
+  ws.on("close", async (msg, reason) => {
+    msg = JSON.parse(msg);
+  });
   ws.on("message", async (msg) => {
     msg = JSON.parse(msg);
+    console.log(msg);
     switch (msg.method) {
       case "connection":
         connectionHandler(ws, msg);
         break;
       case "message":
-        if (msg.message) {
-          const message = await chatService.sendMessage(msg.message, msg.id);
+        switch (msg.action) {
+          case "send":
+            const message = await chatService.sendMessage(msg.message, msg.id);
+            break;
+          case "clear":
+            const response = chatService.clearMessages();
+          case "delete":
+            const deleteRes = await chatService.deleteMessage(msg.messageId);
+            console.log(deleteRes);
         }
         const messages = await chatService.getMessages();
         aWss.clients.forEach((client) => {
@@ -51,7 +60,6 @@ app.ws("/", (ws, req) => {
             })
           );
         });
-        break;
     }
   });
 });
@@ -88,7 +96,6 @@ app.listen(process.env.PORT, (error) => {
 });
 
 app.use(cors(corsOptions));
-
 app.use(cookieParser());
 
 app.use(fileUpload({}));
@@ -111,3 +118,5 @@ app.get("/", (req, res) => {
   const title = "Home";
   res.render(createPath("index"), { title });
 });
+
+module.exports = app;
