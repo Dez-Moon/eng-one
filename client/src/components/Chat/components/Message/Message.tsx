@@ -1,6 +1,7 @@
 import React, { createRef } from "react";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import styles from "./styles.module.scss";
+import UserImg from "../../../../assets/user-icon.png";
 
 type PropsType = {
   index: number;
@@ -40,7 +41,7 @@ const Message = React.memo((props: PropsType) => {
         />
       )}
       <div>
-        <img src={user.img} />
+        <img src={user.img || UserImg} />
       </div>
       <div className={styles.messageContainer}>
         <div className={styles.message}>
