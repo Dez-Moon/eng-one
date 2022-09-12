@@ -80,7 +80,7 @@ const Chat = () => {
   };
 
   return (
-    <div>
+    <div className='chatContainer'>
       <div onClick={() => setOpen(true)} className='chatBtn'>
         Чат
       </div>

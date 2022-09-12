@@ -7,6 +7,18 @@
   height: 30px;
   bottom: 0;
   right: 20px;
+  @media (max-width: 500px) {
+    right: auto;
+    left: auto;
+    width: 90%;
+  }
+}
+.chatContainer {
+  @media (max-width: 500px) {
+    @apply absolute flex justify-center;
+    width: 100%;
+    height: 100%;
+  }
 }
 .chat {
   @apply flex flex-col justify-around text-center fixed rounded-lg p-2 pt-0 gap-1;
@@ -99,6 +111,13 @@
 .chat-enter-done {
   transition: 0.2s;
   height: 500px;
+  @media (max-width: 500px) {
+    @apply absolute;
+    width: 100%;
+    height: 100%;
+    right: 0;
+    z-index: 2;
+  }
 }
 .chat-exit {
   @apply absolute;
