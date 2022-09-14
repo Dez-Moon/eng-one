@@ -17,6 +17,7 @@
   color: white;
   @media (max-width: 500px) {
     @apply fixed;
+    height: 100%;
   }
   h1 {
     @apply text-3xl;
