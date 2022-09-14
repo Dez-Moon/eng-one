@@ -5,7 +5,7 @@ type PropsType = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
 };
-const Emoji = (props: PropsType) => {
+const Emoji = React.memo((props: PropsType) => {
   return (
     <div className='emojiBlock'>
       {emoji.map((el) => (
@@ -25,6 +25,6 @@ const Emoji = (props: PropsType) => {
       ))}
     </div>
   );
-};
+});
 
 export default Emoji;

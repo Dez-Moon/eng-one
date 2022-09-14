@@ -1,7 +1,6 @@
 const ChatMessageDto = require("../dtos/chat-message-dto");
 const Chat = require("../models/chat-message");
 const User = require("../models/user");
-var async = require("async");
 
 class ChatService {
   async getMessages() {
@@ -25,9 +24,16 @@ class ChatService {
     if (response) return true;
     else return false;
   }
-  async changeMessage(message, id) {}
+  async editMessage(message, id) {
+    const response = await Chat.findByIdAndUpdate(
+      id,
+      { message },
+      { new: true }
+    );
+    return response;
+  }
   async deleteMessage(id) {
-    const response = Chat.findByIdAndDelete(id);
+    const response = await Chat.findByIdAndDelete(id);
     return response;
   }
   async clearMessages() {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IUser } from "../../../../models/IUser";
 import styles from "./styles.module.scss";
 import UserIcon from "../../../../assets/user-icon.png";
-import { getTimeLastOnline } from "../../../../functions/getTimeLastOnline";
+import { getTimeLastOnline } from "../../../../functions/functions";
 
 type PropsType = {
   user: IUser;

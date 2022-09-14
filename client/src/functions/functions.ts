@@ -89,3 +89,16 @@ export const getTimeLastOnline = (lastOnline: string) => {
   } тому`;
   return fraze;
 };
+
+export const getTimeCurrentLocation = (date: string) => {
+  const currentDate = new Date();
+  const currentTimeZone = -currentDate.getTimezoneOffset() / 60;
+  let time = date.substr(11, 5).split(":") as any;
+  let hour = Number(time[0]) + currentTimeZone;
+  if (hour > 24) {
+    hour = hour - 24;
+  }
+  time[0] = String(hour);
+  time = time.join(":");
+  return time;
+};

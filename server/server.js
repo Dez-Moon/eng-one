@@ -7,12 +7,14 @@ const methodOverride = require("method-override");
 const createPath = require("./helpers/create-path");
 const cors = require("cors");
 var fileUpload = require("express-fileupload");
+var expressWs = require("express-ws");
 const testApiRoutes = require("./routes/api-tests-routes");
 const userApiRoutes = require("./routes/api-user-routes");
 const videoApiRoutes = require("./routes/api-video-routes");
 const errorMiddleware = require("./middlewares/error-middleware");
 const cookieParser = require("cookie-parser");
 const chatService = require("./service/chat-servise");
+const User = require("./models/user");
 
 const errorMsg = chalk.bgKeyword("white").redBright;
 const successMsg = chalk.bgKeyword("green").white;
@@ -22,61 +24,63 @@ const corsOptions = {
   credentials: true,
   optionSuccessStatus: 200,
 };
-
 const app = express();
-
 const WSserver = require("express-ws")(app);
 const aWss = WSserver.getWss();
+
 app.ws("/", (ws, req) => {
   console.log("Подключение установлено");
-  ws.send("Ты успешно подключился");
-  ws.on("close", async (msg, reason) => {
-    msg = JSON.parse(msg);
-  });
+  ws.send(
+    JSON.stringify(
+      "Вы подключились" + `Колличество пользователей ${aWss.clients.size}`
+    )
+  );
   ws.on("message", async (msg) => {
     msg = JSON.parse(msg);
     console.log(msg);
     switch (msg.method) {
-      case "connection":
-        connectionHandler(ws, msg);
+      case "conect":
+        if (msg.userId !== "гость") {
+          const user = await User.findByIdAndUpdate(msg.userId, {
+            status: "online",
+          });
+        }
+        break;
+      case "disconect":
+        if (msg.userId !== "гость") {
+          const user = await User.findByIdAndUpdate(msg.userId, {
+            status: "offline",
+          });
+        }
         break;
       case "message":
         switch (msg.action) {
           case "send":
-            const message = await chatService.sendMessage(msg.message, msg.id);
+            let sendMessage = await chatService.sendMessage(
+              msg.message,
+              msg.userId
+            );
+            break;
+          case "edit":
+            let editMessage = await chatService.editMessage(
+              msg.message,
+              msg.messageId
+            );
             break;
           case "clear":
             const response = chatService.clearMessages();
+            break;
           case "delete":
             const deleteRes = await chatService.deleteMessage(msg.messageId);
-            console.log(deleteRes);
         }
-        const messages = await chatService.getMessages();
-        aWss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
-              method: "message",
-              messages: messages,
-            })
-          );
-        });
     }
+    const messages = await chatService.getMessages();
+
+    aWss.clients.forEach((client) => {
+      client.send(JSON.stringify({ method: "message", messages }));
+    });
   });
 });
-
-const connectionHandler = (ws, msg) => {
-  ws.id = msg.id;
-  broadcastConnection(ws, msg);
-};
-const broadcastConnection = (ws, msg) => {
-  aWss.clients.forEach((client) => {
-    if (client.id === msg.id) {
-      setTimeout(() => {
-        client.send(`Пользователь ${msg.username} подключился`);
-      }, 5000);
-    }
-  });
-};
 
 app.set("view engine", "ejs");
 
@@ -118,5 +122,3 @@ app.get("/", (req, res) => {
   const title = "Home";
   res.render(createPath("index"), { title });
 });
-
-module.exports = app;

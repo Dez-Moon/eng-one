@@ -7,7 +7,6 @@ import Button from "../Custom-components/Buttons/Button";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "../../store/store";
 import { Navigate } from "react-router-dom";
-import { getTimeLastOnline } from "../../functions/getTimeLastOnline";
 import User from "./components/User/User";
 import UsersShown from "./components/UsersShown/UsersShown";
 import roles from "../../roles for administrator rights/roles";

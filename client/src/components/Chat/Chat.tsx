@@ -1,16 +1,6 @@
-import React, {
-  createRef,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import "./style.scss";
 import { CSSTransition } from "react-transition-group";
-import CustomTextField from "../Custom-components/TextField/TextField";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
-import SendIcon from "@mui/icons-material/Send";
-import emoji from "../../assets/emoji/emoji";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "../../store/store";
 import Message from "./components/Message/Message";
@@ -18,67 +8,83 @@ import Button from "../Custom-components/Buttons/Button";
 import roles from "../../roles for administrator rights/roles";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { useBeforeunload } from "react-beforeunload";
-import Emoji from "./components/Emoji/Emoji";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ChatInputPart from "./components/ChatInputPart/ChatInputPart";
+import { ChatMessageType } from "./types/types";
+import { AuthInitialStateType } from "../../store/auth-reducer";
+import io from "socket.io-client";
+import { createSocketObject } from "../../web sockets/web-sockets";
 
 const Chat = () => {
-  const [value, setValue] = useState("") as any;
-  const [messages, setMessages] = useState([]) as any;
-  const [showEmoji, setShowEmoji] = useState(false);
-  const [open, setOpen] = useState(false);
-  const auth = useSelector<AppRootStateType>((state) => state.auth) as any;
-  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET as any);
+  const [value, setValue] = useState<string>("");
+  const [messages, setMessages] = useState<Array<ChatMessageType>>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<string>("");
+  const auth = useSelector<AppRootStateType>(
+    (state) => state.auth
+  ) as AuthInitialStateType;
   const [scrollHeight, setScrollHeight] = useState() as any;
   const [offsetHeight, setOffsetHeight] = useState() as any;
   const [scrollTop, setScrollTop] = useState() as any;
   const [contextMenu, setContextMenu] = useState("") as any;
+
+  const [waitingServer, setWaitingServer] = useState<boolean>(false);
+  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET as any);
+
   useEffect(() => {
     socket.onopen = () => {
-      socket.send(
-        JSON.stringify({ method: "connection", userId: auth.user.id })
-      );
-      socket.send(
-        JSON.stringify({ method: "message", action: "get-messages" })
-      );
+      socket.send(JSON.stringify(createSocketObject("message")));
     };
+
     socket.onmessage = (event: any) => {
       const data = JSON.parse(event.data);
+      console.log(data);
       switch (data.method) {
         case "message":
           setMessages(data.messages);
       }
     };
+    socket.onclose = (event: any) => {
+      socket.send(
+        JSON.stringify({ method: "disconect", userId: auth.user.id })
+      );
+    };
   }, []);
-  socket.onclose = function () {};
-  useBeforeunload((event) => {
-    socket.send(JSON.stringify({ method: "disconect", userId: auth.user.id }));
-    socket.close();
-  });
+
   const messagesRef = useRef() as any;
+  useEffect(() => {
+    if (messagesRef.current) {
+      setTimeout(() => {
+        if (messagesRef.current)
+          setOffsetHeight(messagesRef.current.offsetHeight);
+      }, 1000);
+      setScrollHeight(messagesRef.current.scrollHeight);
+    }
+  }, [messages]);
+  useEffect(() => {
+    if (messagesRef.current) {
+      setTimeout(() => {
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+      }, 0);
+      setTimeout(() => {
+        if (messagesRef.current)
+          setOffsetHeight(messagesRef.current.offsetHeight);
+      }, 1000);
+      setScrollHeight(messagesRef.current.scrollHeight);
+    }
+  }, [editMode]);
   useEffect(() => {
     setTimeout(() => {
       if (messagesRef.current) {
         messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
         setTimeout(() => {
-          setOffsetHeight(messagesRef.current.offsetHeight);
+          if (messagesRef.current)
+            setOffsetHeight(messagesRef.current.offsetHeight);
         }, 1000);
         setScrollHeight(messagesRef.current.scrollHeight);
       }
     }, 0);
   }, [open]);
-  const sendMessage = (message: string) => {
-    setValue("");
-    socket.send(
-      JSON.stringify({
-        message: message,
-        method: "message",
-        action: "send",
-        id: auth.user.id,
-      })
-    );
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-  };
-
   return (
     <div className='chatContainer'>
       <div onClick={() => setOpen(true)} className='chatBtn'>
@@ -93,7 +99,13 @@ const Chat = () => {
         <div className='chat'>
           <ExpandCircleDownIcon
             className='buttonHideChat'
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              setTimeout(() => {
+                setContextMenu("");
+                setEditMode("");
+              }, 200);
+            }}
           />
           {roles.has(auth.user.role) && (
             <div className='clearButton'>
@@ -110,7 +122,7 @@ const Chat = () => {
                 style={{ fontSize: "12px" }}
               />
             </div>
-          )}{" "}
+          )}
           <h1>Чат</h1>
           <div
             className='messages'
@@ -119,16 +131,19 @@ const Chat = () => {
               setScrollTop(e.currentTarget.scrollTop);
             }}
           >
-            {contextMenu && <div className='backgroundBlurOnContext'></div>}
+            {(contextMenu || editMode) && (
+              <div className='backgroundBlurOnContext'></div>
+            )}
 
             {messages.map((message: any, index: number) => (
               <Message
-                style={message.id === contextMenu ? { zIndex: 2 } : {}}
                 message={message}
                 index={index}
                 contextMenu={contextMenu}
                 setContextMenu={setContextMenu}
                 socket={socket}
+                editMode={editMode}
+                setEditMode={setEditMode}
               />
             ))}
             {scrollTop + offsetHeight < scrollHeight && (
@@ -141,40 +156,13 @@ const Chat = () => {
               />
             )}
           </div>
-          <div className='bottomPart'>
-            {showEmoji && <Emoji value={value} setValue={setValue} />}
-            <div className='input'>
-              <SentimentSatisfiedAltIcon
-                onClick={() => setShowEmoji(!showEmoji)}
-              />
-              <CustomTextField
-                label='Повідомлення'
-                variant='outlined'
-                size='small'
-                name='message'
-                autoComplete='new-password'
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setValue(e.target.value)
-                }
-                onKeyPress={(e: any) => {
-                  if (e.charCode === 13 && value) {
-                    sendMessage(value);
-                  }
-                }}
-                value={value}
-              />
-              <SendIcon
-                onClick={() => {
-                  if (value) {
-                    sendMessage(value);
-                  }
-                }}
-              />
-              {!auth.isAuth && (
-                <div className='notAuthorizedBackdrop'>Не авторизован</div>
-              )}
-            </div>
-          </div>
+          <ChatInputPart
+            value={value}
+            setValue={setValue}
+            socket={socket}
+            messagesRef={messagesRef}
+            setWaitingServer={setWaitingServer}
+          />
         </div>
       </CSSTransition>
     </div>

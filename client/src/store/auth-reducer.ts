@@ -6,8 +6,9 @@ import { IUser } from "../models/IUser";
 import { setAppStatusAC, setErrorAC, setLoadingWindowAC } from "./app-reducer";
 import { cookies } from "../cookies/cookies";
 
-type InitialStateType = { user: IUser; isAuth: boolean };
-const initialState: InitialStateType = { user: {} as IUser, isAuth: false };
+export type AuthInitialStateType = { user: IUser; isAuth: boolean };
+
+const initialState: AuthInitialStateType = { user: {} as IUser, isAuth: false };
 const slice = createSlice({
   name: "auth",
   initialState: initialState,

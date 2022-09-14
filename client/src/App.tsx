@@ -39,15 +39,30 @@ const array = [
   { link: "/contacts", name: "Контакти" },
 ];
 
-function App() {
+const App = () => {
+  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET as any);
   useBeforeunload((event) => {
     authApi.userOffline();
+    socket.send(JSON.stringify({ method: "disconect", userId: auth.user.id }));
+    socket.close();
   });
   const dispatch = useDispatch();
   const auth = useSelector<AppRootStateType>((state) => state.auth) as any;
   const [showModalWindow, setShowModalWindow] = useState(null) as any;
   const location = useLocation();
   const screenWidth = window.screen.width;
+  useEffect(() => {
+    socket.onopen = () => {
+      socket.send(
+        JSON.stringify({ method: "conect", userId: auth.user.id || "гость" })
+      );
+      socket.onclose = () => {
+        socket.send(
+          JSON.stringify({ method: "disconect", userId: auth.user.id })
+        );
+      };
+    };
+  }, []);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const thunk = chechAuthTC();
@@ -150,6 +165,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;
