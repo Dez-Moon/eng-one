@@ -15,6 +15,9 @@
   overflow-y: hidden;
   overflow-x: hidden;
   color: white;
+  @media (max-width: 500px) {
+    @apply fixed;
+  }
   h1 {
     @apply text-3xl;
   }
