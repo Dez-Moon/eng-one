@@ -42,7 +42,9 @@ const Message = React.memo((props: PropsType) => {
     }
   }, []);
   const onLongPress = () => {
-    console.log("longpress is triggered");
+    if (auth.user.id === user.id) {
+      props.setContextMenu(id);
+    }
   };
 
   const onClick = () => {
@@ -64,7 +66,6 @@ const Message = React.memo((props: PropsType) => {
         socket={props.socket}
         setContextMenu={props.setContextMenu}
         editMode={props.editMode}
-        {...longPressEvent}
       />
     );
   return (
@@ -73,6 +74,7 @@ const Message = React.memo((props: PropsType) => {
       style={style}
       ref={messageRef}
       onContextMenu={contextMenu}
+      {...longPressEvent}
     >
       {props.contextMenu === id && (
         <ContextMenu
