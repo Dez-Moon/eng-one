@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import styles from "./styles.module.scss";
 import UserImg from "../../../../assets/user-icon.png";
@@ -8,7 +8,6 @@ import { getTimeCurrentLocation } from "../../../../functions/functions";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "../../../../store/store";
 import { AuthInitialStateType } from "../../../../store/auth-reducer";
-import useLongPress from "../../../../hooks/useLongPress";
 
 type PropsType = {
   index: number;
@@ -41,21 +40,7 @@ const Message = React.memo((props: PropsType) => {
       setWidthForTextArea(messageRef.current.offsetWidth);
     }
   }, []);
-  const onLongPress = () => {
-    if (auth.user.id === user.id) {
-      props.setContextMenu(id);
-    }
-  };
 
-  const onClick = () => {
-    console.log("click is triggered");
-  };
-
-  const defaultOptions = {
-    shouldPreventDefault: true,
-    delay: 500,
-  };
-  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
   if (props.editMode === id)
     return (
       <EditMessage
@@ -74,7 +59,6 @@ const Message = React.memo((props: PropsType) => {
       style={style}
       ref={messageRef}
       onContextMenu={contextMenu}
-      {...longPressEvent}
     >
       {props.contextMenu === id && (
         <ContextMenu

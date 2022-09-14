@@ -56,6 +56,10 @@ const App = () => {
     (state) => state.app
   );
   const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+  const style = {
+    height: screenWidth < 500 ? screenHeight : "100vh",
+  };
   useEffect(() => {
     isInitializedTC()(dispatch);
   }, []);
@@ -82,7 +86,7 @@ const App = () => {
   }
 
   return (
-    <div className='App'>
+    <div className='App' style={style}>
       <div className='Header'>
         <Header
           setShowModalWindow={setShowModalWindow}
