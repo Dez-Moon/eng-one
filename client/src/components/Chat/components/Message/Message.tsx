@@ -8,6 +8,7 @@ import { getTimeCurrentLocation } from "../../../../functions/functions";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "../../../../store/store";
 import { AuthInitialStateType } from "../../../../store/auth-reducer";
+import { duration } from "@mui/material";
 
 type PropsType = {
   index: number;
@@ -53,6 +54,7 @@ const Message = React.memo((props: PropsType) => {
         editMode={props.editMode}
       />
     );
+
   return (
     <div
       className={styles.messageItem}

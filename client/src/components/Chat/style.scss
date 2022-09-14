@@ -2,17 +2,16 @@
   @apply fixed flex justify-center items-center rounded-lg cursor-pointer;
   border: 0.5px solid gray;
   -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(100px);
+  backdrop-filter: blur(10px);
   width: 280px;
   height: 30px;
   bottom: 0;
-  right: 20px;
+  right: 0px;
   @media (max-width: 500px) {
     width: 90%;
   }
 }
-.chatContainer {
-}
+
 .chat {
   @apply flex flex-col justify-around text-center fixed rounded-lg p-2 pt-0 gap-1;
   border: 0.5px solid gray;
@@ -21,7 +20,7 @@
   height: 30px;
   width: 280px;
   bottom: 0px;
-  right: 20px;
+  right: 0px;
   @media (max-width: 500px) {
     @apply absolute flex justify-center;
     width: 90%;
@@ -31,6 +30,9 @@
     @apply absolute cursor-pointer;
     left: 5px;
     top: 5px;
+    @media (max-width: 500px) {
+      font-size: 40px;
+    }
   }
   h1 {
     @apply mb-3;

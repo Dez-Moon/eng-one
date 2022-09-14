@@ -9,6 +9,9 @@
   width: 80%;
   margin: 30px 0px;
   overflow-y: scroll;
+  @media (max-width: 500px) {
+    width: 95%;
+  }
 
   .users {
     @apply flex gap-2 items-start flex-wrap mt-2;
