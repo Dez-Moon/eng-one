@@ -28,7 +28,6 @@ const Chat = () => {
   const [scrollTop, setScrollTop] = useState() as any;
   const [contextMenu, setContextMenu] = useState("") as any;
 
-  const [waitingServer, setWaitingServer] = useState<boolean>(false);
   const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET as any);
 
   useEffect(() => {
@@ -161,7 +160,6 @@ const Chat = () => {
             setValue={setValue}
             socket={socket}
             messagesRef={messagesRef}
-            setWaitingServer={setWaitingServer}
           />
         </div>
       </CSSTransition>

@@ -12,16 +12,14 @@ type PropsType = {
   setValue: React.Dispatch<React.SetStateAction<string>>;
   messagesRef: any;
   socket: any;
-  setWaitingServer: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const ChatInputPart = React.memo((props: PropsType) => {
   const auth = useSelector<AppRootStateType>(
     (state) => state.auth
   ) as AuthInitialStateType;
   const [showEmoji, setShowEmoji] = useState(false);
-  const { value, setValue, messagesRef, socket, setWaitingServer } = props;
+  const { value, setValue, messagesRef, socket } = props;
   const sendMessage = (message: string) => {
-    setWaitingServer(true);
     setValue("");
     socket.send(
       JSON.stringify({
@@ -31,7 +29,9 @@ const ChatInputPart = React.memo((props: PropsType) => {
         userId: auth.user.id,
       })
     );
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    setTimeout(() => {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }, 0);
   };
   return (
     <div className='inputPart'>
