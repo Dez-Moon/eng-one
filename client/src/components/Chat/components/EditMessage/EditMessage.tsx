@@ -37,8 +37,11 @@ const EditMessage = (props: PropsType) => {
   }
   return (
     <div className={styles.messageItem} style={style}>
-      <div>
+      <div className={styles.photo}>
         <img src={message.user.img || UserImg} />
+        {message.user.status === "online" && (
+          <div className={styles.onlineIndicator}></div>
+        )}
       </div>
       <div className={styles.messageContainer} ref={ref}>
         <TextareaAutosize

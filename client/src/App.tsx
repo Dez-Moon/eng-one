@@ -23,6 +23,8 @@ import { authApi } from "./api/auth-api";
 import Videos from "./components/Videos/Videos";
 import { Backdrop } from "@mui/material";
 import Chat from "./components/Chat/Chat";
+import { AppInitialStateType, isInitializedTC } from "./store/app-reducer";
+import Preloader from "./Preloader/Preloader";
 
 export type ShowModalWindowType =
   | "autorization"
@@ -50,7 +52,13 @@ const App = () => {
   const auth = useSelector<AppRootStateType>((state) => state.auth) as any;
   const [showModalWindow, setShowModalWindow] = useState(null) as any;
   const location = useLocation();
+  const { isInitialized } = useSelector<AppRootStateType, AppInitialStateType>(
+    (state) => state.app
+  );
   const screenWidth = window.screen.width;
+  useEffect(() => {
+    isInitializedTC()(dispatch);
+  }, []);
   useEffect(() => {
     socket.onopen = () => {
       socket.send(
@@ -64,16 +72,15 @@ const App = () => {
     };
   }, []);
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      const thunk = chechAuthTC();
-      thunk(dispatch);
-    }
-  }, []);
-  useEffect(() => {
     if (auth.isAuth) {
       setShowModalWindow(null);
     }
   }, [auth.isAuth]);
+
+  if (!isInitialized) {
+    return <Preloader />;
+  }
+
   return (
     <div className='App'>
       <div className='Header'>

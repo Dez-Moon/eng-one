@@ -43,7 +43,7 @@ const ChatInputPart = React.memo((props: PropsType) => {
           variant='outlined'
           size='small'
           name='message'
-          autoFocus={true}
+          autoFocus={auth.isAuth && true}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setValue(e.target.value)
           }

@@ -5,6 +5,10 @@ import UserImg from "../../../../assets/user-icon.png";
 import EditMessage from "../EditMessage/EditMessage";
 import { ChatMessageType } from "../../types/types";
 import { getTimeCurrentLocation } from "../../../../functions/functions";
+import { useSelector } from "react-redux";
+import { AppRootStateType } from "../../../../store/store";
+import { AuthInitialStateType } from "../../../../store/auth-reducer";
+import useLongPress from "../../../../hooks/useLongPress";
 
 type PropsType = {
   index: number;
@@ -17,6 +21,9 @@ type PropsType = {
 };
 const Message = React.memo((props: PropsType) => {
   const [widthForTextArea, setWidthForTextArea] = useState<number>(0);
+  const auth = useSelector<AppRootStateType, AuthInitialStateType>(
+    (state) => state.auth
+  );
   const { message, user, id, createdAt, updatedAt } = props.message;
   const style =
     (props.contextMenu || props.editMode) === props.message.id
@@ -24,7 +31,9 @@ const Message = React.memo((props: PropsType) => {
       : {};
   const contextMenu = (e: any) => {
     e.preventDefault();
-    props.setContextMenu(id);
+    if (auth.user.id === user.id) {
+      props.setContextMenu(id);
+    }
   };
   const messageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -32,6 +41,19 @@ const Message = React.memo((props: PropsType) => {
       setWidthForTextArea(messageRef.current.offsetWidth);
     }
   }, []);
+  const onLongPress = () => {
+    console.log("longpress is triggered");
+  };
+
+  const onClick = () => {
+    console.log("click is triggered");
+  };
+
+  const defaultOptions = {
+    shouldPreventDefault: true,
+    delay: 500,
+  };
+  const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
   if (props.editMode === id)
     return (
       <EditMessage
@@ -42,6 +64,7 @@ const Message = React.memo((props: PropsType) => {
         socket={props.socket}
         setContextMenu={props.setContextMenu}
         editMode={props.editMode}
+        {...longPressEvent}
       />
     );
   return (
