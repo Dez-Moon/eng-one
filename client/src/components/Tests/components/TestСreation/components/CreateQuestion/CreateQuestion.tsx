@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import CustomTextField from "../../../../../Custom-components/TextField/TextField";
 import AddIcon from "@mui/icons-material/Add";
 import styles from "./styles.module.scss";
@@ -6,41 +6,72 @@ import CreateAnswerVariant from "../CreateAnswerVariant/CreateAnswerVariant";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { useDispatch } from "react-redux";
 import {
-  createAnswerVariantsAC,
-  deleteQuestionAC,
-  deleteQuestionImgAC,
-  editQuestionImgAC,
-  editQuestionNameAC,
-} from "../../../../../../store/tests-reducer";
-import { API } from "../../../../../../api/api";
-import { CircularProgress } from "@mui/material";
+  CreatingAndPassingTestType,
+  QuestionTestType,
+} from "../../TestCreation";
+import { v4 } from "uuid";
 
 type PropsType = {
-  question: {
-    name: string;
-    img: any;
-    answerVariants: Array<{}>;
-    amountTrueAnswer: number;
-  };
-  testName: string;
-  index: number;
-  indexTest: number;
+  question: QuestionTestType;
+  indexQuestion: number;
+  setTest: any;
+  test: CreatingAndPassingTestType;
 };
 
 const CreateQuestion = React.memo((props: PropsType) => {
-  const dispatch = useDispatch();
-  const [img, setImg] = useState(null) as any;
-  const [load, setLoad] = useState(false);
-  useEffect(() => {
-    if (props.question.img)
-      API.getImage(props.question.img).then((res: any) => {
-        setImg(res.data);
-      });
-  });
-  const onLoad = () => {
-    setLoad(true);
+  const [img, setImg] = useState<any>();
+  const [load, setLoad] = useState<boolean>();
+  const { question, indexQuestion, setTest, test } = props;
+
+  const deleteImage = () => {
+    const newQuestions = [...test.questions];
+    newQuestions[indexQuestion].img = "";
+    setTest({ ...test, questions: newQuestions });
+  };
+  const editQuestionName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuestions = [...test.questions];
+    newQuestions[indexQuestion].name = e.target.value;
+    setTest({ ...test, questions: newQuestions });
+  };
+  const deleteQuestion = () => {
+    const newQuestions = [...test.questions];
+    newQuestions.splice(indexQuestion, 1);
+    setTest({
+      ...test,
+      countQuestions: test.countQuestions - 1,
+      questions: newQuestions,
+    });
+  };
+  const addVariant = () => {
+    const newVariant = { answer: "", answerCorrect: false, id: v4() };
+    const newQuestions = [...test.questions];
+    newQuestions[indexQuestion].answerVariants.push(newVariant);
+    setTest({ ...test, questions: newQuestions });
+  };
+  const addImage = (e: any) => {
+    var target = e.target;
+
+    if (!FileReader) {
+      alert("FileReader не поддерживается — облом");
+      return;
+    }
+
+    if (!target.files.length) {
+      alert("Ничего не загружено");
+      return;
+    }
+
+    var fileReader = new FileReader();
+    fileReader.onload = function () {
+      const a = fileReader.result;
+      const newQuestions = [...test.questions];
+      newQuestions[indexQuestion].img = target.files[0];
+      setImg(a);
+      setTest({ ...test, questions: newQuestions });
+    };
+
+    fileReader.readAsDataURL(target.files[0]);
   };
   return (
     <div className={styles.createQuestion}>
@@ -50,24 +81,7 @@ const CreateQuestion = React.memo((props: PropsType) => {
             <span>Додати зображення </span>
             <label className={styles.addImage}>
               <AddAPhotoIcon className={styles.addImageIcon} />
-              <input
-                type='file'
-                accept='image/*,image/jpeg'
-                onChange={(e: any) => {
-                  API.uploadFile(e.target.files[0], props.testName).then(
-                    (res: any) => {
-                      dispatch(
-                        editQuestionImgAC({
-                          img: res.data,
-                          indexTest: props.indexTest,
-                          indexQuestion: props.index,
-                        })
-                      );
-                      e.target.value = null;
-                    }
-                  );
-                }}
-              />
+              <input type='file' accept='image/*,' onChange={addImage} />
             </label>
           </div>
           <div className={styles.nameQuestion}>
@@ -75,82 +89,38 @@ const CreateQuestion = React.memo((props: PropsType) => {
               autoFocus={true}
               variant='filled'
               size='small'
-              label={`Питання ${props.index + 1}`}
-              value={props.question.name}
-              onChange={(e: any) => {
-                dispatch(
-                  editQuestionNameAC({
-                    name: e.target.value,
-                    indexTest: props.indexTest,
-                    indexQuestion: props.index,
-                  })
-                );
-              }}
+              label={`Питання ${indexQuestion + 1}`}
+              value={question.name}
+              onChange={editQuestionName}
             />
-            <DeleteIcon
-              className={styles.delete}
-              onClick={() => {
-                dispatch(
-                  deleteQuestionAC({
-                    indexTest: props.indexTest,
-                    indexQuestion: props.index,
-                  })
-                );
-              }}
-            />
+            <DeleteIcon className={styles.delete} onClick={deleteQuestion} />
           </div>
           <div className={styles.addNewVariant}>
             <span>Додати варіант відповіді </span>
             <span className={styles.plus}>
-              <AddIcon
-                onClick={() => {
-                  dispatch(
-                    createAnswerVariantsAC({
-                      indexTest: props.indexTest,
-                      indexQuestion: props.index,
-                    })
-                  );
-                }}
-              />
+              <AddIcon onClick={addVariant} />
             </span>
           </div>
         </div>
       </div>
-      {props.question.img && (
-        <div className={styles.img}>
-          <div>
-            <img src={img} onLoad={onLoad} />
-          </div>
-          {load ? (
-            <div>
-              <HighlightOffIcon
-                className={styles.deleteImgBtn}
-                onClick={() => {
-                  dispatch(
-                    deleteQuestionImgAC({
-                      indexTest: props.indexTest,
-                      indexQuestion: props.index,
-                    })
-                  );
-                }}
-              />
-            </div>
-          ) : (
-            <div className={styles.imgPreloader}>
-              <CircularProgress />
-            </div>
-          )}
-        </div>
-      )}
+      <div className={styles.img}>
+        <img src={img} />
+        {img && (
+          <HighlightOffIcon
+            className={styles.deleteImgBtn}
+            onClick={deleteImage}
+          />
+        )}
+      </div>
       <div className={styles.answerVariants}>
         {props.question.answerVariants.length > 0 &&
           props.question.answerVariants.map((variant: any, index: number) => (
             <CreateAnswerVariant
               variant={variant}
-              index={index}
-              indexTest={props.indexTest}
-              indexQuestion={props.index}
-              amountTrueAnswer={props.question.amountTrueAnswer}
+              indexVariant={index}
+              indexQuestion={indexQuestion}
+              test={test}
+              setTest={setTest}
             />
           ))}
       </div>

@@ -1,3 +1,5 @@
+import { UserPassedTheTestType } from "../components/Tests/components/Test/Test";
+
 export const getTimeLastOnline = (lastOnline: string) => {
   const myFunc = (num: string) => {
     return Number(num);
@@ -101,4 +103,45 @@ export const getTimeCurrentLocation = (date: string) => {
   time[0] = String(hour);
   time = time.join(":");
   return time;
+};
+
+export const getColorTestResults = (
+  userPassedTheTest: UserPassedTheTestType
+) => {
+  let textColor;
+  if (userPassedTheTest) {
+    if (
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 >
+        0.3 &&
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 <
+        0.5
+    ) {
+      textColor = "orange";
+    }
+    if (
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 >
+        0.5 &&
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 <
+        0.7
+    ) {
+      textColor = "yellow";
+    }
+    if (
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 >
+        0.7 &&
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 <
+        0.9
+    ) {
+      textColor = "#7fff00";
+    }
+    if (
+      (userPassedTheTest.bestResult / userPassedTheTest.countAttempts) * 100 >
+      0.9
+    ) {
+      textColor = "green";
+    } else {
+      textColor = "red";
+    }
+  }
+  return { color: textColor };
 };

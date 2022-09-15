@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { $api } from "./api";
+import { $api } from "./api-settings";
 
 export const videosApi = {
   getVideos() {

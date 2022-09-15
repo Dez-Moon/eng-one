@@ -1,0 +1,16 @@
+.mainTestsPage {
+  @apply w-full h-full text-center;
+  .header {
+    @apply text-3xl;
+  }
+  .testContainer {
+    @apply flex flex-wrap gap-3 items-center justify-center  mt-1;
+  }
+  .createTestBtn {
+    @apply absolute right-2 top-2;
+    @media (max-width: 600px) {
+      @apply relative;
+      margin: 0 auto;
+    }
+  }
+}

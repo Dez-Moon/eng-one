@@ -4,6 +4,7 @@ import { Transition } from "react-transition-group";
 
 const AboutMe = () => {
   const [img, setImg] = useState() as any;
+
   return (
     <div className={styles.aboutMe}>
       <div>
@@ -13,6 +14,7 @@ const AboutMe = () => {
         <input
           type='file'
           onChange={(e: any) => {
+            debugger;
             {
               var target = e.target;
 

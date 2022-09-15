@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, Location, useLocation } from "react-router-dom";
 import styles from "./styles.module.scss";
 import MenuIcon from "@mui/icons-material/Menu";
-import NavigationOverlay from "./components/NavigationOverlay";
-import Autorization from "../Autorization/Autorization";
 import { ShowModalWindowType } from "../../App";
 import { useDispatch } from "react-redux";
-import { setPassingTestAC } from "../../store/tests-reducer";
-import { Backdrop } from "@mui/material";
 
 type PropsType = {
   setShowModalWindow: any;
@@ -16,11 +12,7 @@ type PropsType = {
 };
 const Header = React.memo((props: PropsType) => {
   const location: Location = useLocation();
-  const dispatch = useDispatch();
   const screenWidth = window.screen.width;
-  useEffect(() => {
-    dispatch(setPassingTestAC({ test: null, index: 0 }));
-  }, [location]);
 
   return (
     <div

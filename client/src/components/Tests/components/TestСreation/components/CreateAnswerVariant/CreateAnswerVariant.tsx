@@ -4,85 +4,59 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "./styles.module.scss";
-import { useDispatch } from "react-redux";
 import {
-  deleteAnswerVariantAC,
-  editNameAnswerVariantsAC,
-  setCorrectAnswerVariantAC,
-} from "../../../../../../store/tests-reducer";
+  AnswerVariantsType,
+  CreatingAndPassingTestType,
+} from "../../TestCreation";
 
 type PropsType = {
-  variant: { answer: string; answerCorrect: boolean };
-  index: number;
-  indexTest: number;
+  variant: AnswerVariantsType;
+  indexVariant: number;
   indexQuestion: number;
-  amountTrueAnswer: number;
+  test: CreatingAndPassingTestType;
+  setTest: React.Dispatch<React.SetStateAction<CreatingAndPassingTestType>>;
 };
 const CreateAnswerVariant = React.memo((props: PropsType) => {
-  const dispatch = useDispatch();
+  const { variant, indexVariant, indexQuestion, test, setTest } = props;
+
+  const editVariantName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const testCopy = { ...test };
+    testCopy.questions[indexQuestion].answerVariants[indexVariant].answer =
+      e.target.value;
+    setTest(testCopy);
+  };
+  const selectVariant = () => {
+    const questionCopy = [...test.questions];
+    questionCopy.map((question, index) => {
+      if (index === indexQuestion) {
+        question.answerVariants[indexVariant].answerCorrect =
+          !question.answerVariants[indexVariant].answerCorrect;
+      }
+    });
+    setTest({ ...test, questions: questionCopy });
+  };
+  const deleteVariant = () => {
+    const newTest = { ...test };
+    newTest.questions[indexQuestion].answerVariants.splice(indexVariant, 1);
+    setTest(newTest);
+  };
   return (
     <div className={styles.createAnswerVariant}>
       <CustomTextField
         variant='filled'
         autoFocus={true}
         size='small'
-        label={`Варiант ${props.index + 1}`}
+        label={`Варiант ${indexVariant + 1}`}
         value={props.variant.answer}
-        onChange={(e: any) => {
-          dispatch(
-            editNameAnswerVariantsAC({
-              name: e.target.value,
-              indexAnswer: props.index,
-              indexTest: props.indexTest,
-              indexQuestion: props.indexQuestion,
-            })
-          );
-        }}
+        onChange={editVariantName}
       />
       <div className={styles.icon}>
         {props.variant.answerCorrect ? (
-          <CheckIcon
-            className={styles.true}
-            onClick={() => {
-              dispatch(
-                setCorrectAnswerVariantAC({
-                  value: false,
-                  indexAnswer: props.index,
-                  indexTest: props.indexTest,
-                  indexQuestion: props.indexQuestion,
-                  amountTrueAnswer: props.amountTrueAnswer - 1,
-                })
-              );
-            }}
-          />
+          <CheckIcon className={styles.true} onClick={selectVariant} />
         ) : (
-          <ClearIcon
-            className={styles.false}
-            onClick={() => {
-              dispatch(
-                setCorrectAnswerVariantAC({
-                  value: true,
-                  indexAnswer: props.index,
-                  indexTest: props.indexTest,
-                  indexQuestion: props.indexQuestion,
-                  amountTrueAnswer: props.amountTrueAnswer + 1,
-                })
-              );
-            }}
-          />
+          <ClearIcon className={styles.false} onClick={selectVariant} />
         )}
-        <DeleteIcon
-          className={styles.delete}
-          onClick={() => {
-            dispatch(
-              deleteAnswerVariantAC({
-                indexAnswer: props.index,
-                indexTest: props.indexTest,
-                indexQuestion: props.indexQuestion,
-              })
-            );
-          }}
-        />
+        <DeleteIcon className={styles.delete} onClick={deleteVariant} />
       </div>
     </div>
   );

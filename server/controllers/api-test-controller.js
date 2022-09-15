@@ -11,6 +11,7 @@ const {
 } = require("firebase/storage");
 const { default: axios } = require("axios");
 const tokenService = require("../service/token-service");
+const testServise = require("../service/tests-service");
 
 const firebaseConfig = {
   apiKey: "AIzaSyB9KqSRlxaFwgrlv3GWMwsA314FsjdPBNU",
@@ -25,6 +26,30 @@ const firebaseConfig = {
 const fireBaseApp = initializeApp(firebaseConfig);
 const storage = getStorage();
 
+class TestController {
+  async getTests(req, res, next) {
+    try {
+      const tests = await testServise.getTests();
+      res.status(200).json(tests);
+    } catch (e) {}
+  }
+  async createTest(req, res, next) {
+    try {
+      const test = JSON.parse(req.body.test);
+      console.log(test);
+      const response = await testServise.createTest(test);
+      res.status(200).json(response);
+    } catch (e) {}
+  }
+  async uploadImage(req, res, next) {
+    const img = await testServise.uploadImage(
+      req.body.testName,
+      req.files.image.name,
+      req.files.image.data
+    );
+    res.status(200).json(img);
+  }
+}
 const getTest = (req, res) => {
   Test.findById(req.params.id)
     .then((test) => res.status(200).json(test))
@@ -143,13 +168,4 @@ const finishedTest = async function (req, res) {
     console.log(e);
   }
 };
-module.exports = {
-  getTest,
-  getTests,
-  addTest,
-  editTest,
-  deleteTest,
-  uploadImage,
-  getImage,
-  finishedTest,
-};
+module.exports = new TestController();

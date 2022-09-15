@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { $api } from "../api/api";
+import { $api } from "./api-settings";
 import { IUser } from "../models/IUser";
 import { AuthResponse } from "../models/response/AuthResponse";
 

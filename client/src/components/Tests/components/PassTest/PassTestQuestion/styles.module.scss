@@ -1,0 +1,15 @@
+.question {
+  @apply flex flex-col;
+  .img {
+    @apply relative flex  items-center justify-center flex-col;
+    height: 270px;
+    img {
+      height: 100%;
+    }
+    .imgPreloader {
+    }
+  }
+  .variant {
+    @apply flex justify-start items-center gap-2;
+  }
+}
